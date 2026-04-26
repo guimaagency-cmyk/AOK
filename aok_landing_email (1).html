@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AOK — Guide Gratuit</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0a0908;
+    --dark:    #111009;
+    --mid:     #1c1a14;
+    --copper:  #C8923A;
+    --copper2: #e0a94a;
+    --cream:   #f0e6d2;
+    --muted:   rgba(240,230,210,0.5);
+    --faint:   rgba(240,230,210,0.12);
+    --border:  rgba(200,146,58,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,9,8,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--faint);
+  }
+  .logo {
+    font-size: 13px; letter-spacing: 0.3em; color: var(--copper);
+    text-decoration: none; text-transform: uppercase;
+  }
+  .topbar-cta {
+    font-family: Arial, sans-serif;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; border: none; background: none;
+    transition: color 0.2s;
+  }
+  .topbar-cta:hover { color: var(--cream); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 8rem 1.5rem 4rem;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(200,146,58,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: Arial, sans-serif;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--copper); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: ''; display: block; width: 30px; height: 1px;
+    background: var(--copper); opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 400; line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 760px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--copper);
+  }
+
+  .hero-sub {
+    font-family: Arial, sans-serif;
+    font-size: clamp(14px, 2vw, 16px);
+    color: var(--muted); line-height: 1.7;
+    max-width: 520px; margin-bottom: 3rem;
+  }
+
+  /* ── FORM ── */
+  .form-wrap {
+    width: 100%; max-width: 460px;
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .form-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .form-row:focus-within { border-color: var(--copper); }
+
+  .form-input {
+    flex: 1; padding: 1rem 1.25rem;
+    background: rgba(240,230,210,0.04);
+    border: none; outline: none;
+    color: var(--cream);
+    font-family: Arial, sans-serif; font-size: 14px;
+    min-width: 0;
+  }
+  .form-input::placeholder { color: var(--muted); }
+
+  .form-submit {
+    padding: 1rem 1.5rem;
+    background: var(--copper);
+    border: none; cursor: pointer;
+    color: var(--black);
+    font-family: Arial, sans-serif;
+    font-size: 12px; font-weight: bold;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--copper2); }
+
+  .form-privacy {
+    font-family: Arial, sans-serif;
+    font-size: 11px; color: rgba(240,230,210,0.3);
+    text-align: center; line-height: 1.5;
+  }
+
+  /* success */
+  .form-success {
+    display: none;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid rgba(100,200,130,0.3);
+    background: rgba(100,200,130,0.06);
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 14px; color: #7dcf99;
+    text-align: center; line-height: 1.6;
+  }
+
+  /* ── PROOF BAR ── */
+  .proof {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--faint);
+    display: flex; justify-content: center;
+    gap: 2.5rem; flex-wrap: wrap;
+  }
+  .proof-item {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  .proof-num {
+    display: block; font-size: 1.5rem;
+    color: var(--copper); line-height: 1;
+    font-family: Georgia, serif;
+  }
+  .proof-label {
+    display: block; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 3px;
+  }
+
+  /* ── WHAT'S INSIDE ── */
+  .inside {
+    padding: 5rem 1.5rem;
+    max-width: 700px; margin: 0 auto;
+  }
+  .section-tag {
+    font-family: Arial, sans-serif;
+    font-size: 10px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--copper);
+    margin-bottom: 2rem;
+  }
+  .inside h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 400; line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .inside-sub {
+    font-family: Arial, sans-serif;
+    font-size: 15px; color: var(--muted);
+    line-height: 1.7; margin-bottom: 3rem;
+  }
+
+  .chapters {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .chapter {
+    display: grid; grid-template-columns: 40px 1fr;
+    gap: 1.25rem; align-items: start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--faint);
+  }
+  .chapter:last-child { border-bottom: none; }
+  .chapter-num {
+    font-size: 11px; color: var(--copper);
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.1em; padding-top: 2px;
+  }
+  .chapter-title {
+    font-size: 1rem; font-style: italic;
+    color: var(--cream); margin-bottom: 0.3rem;
+  }
+  .chapter-desc {
+    font-family: Arial, sans-serif;
+    font-size: 13px; color: var(--muted); line-height: 1.6;
+  }
+
+  /* ── WHO ── */
+  .who {
+    padding: 5rem 1.5rem;
+    background: var(--mid);
+    border-top: 1px solid var(--faint);
+    border-bottom: 1px solid var(--faint);
+  }
+  .who-inner {
+    max-width: 700px; margin: 0 auto;
+  }
+  .who h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 400; line-height: 1.3;
+    margin-bottom: 2.5rem;
+  }
+  .who-list {
+    display: flex; flex-direction: column; gap: 1rem;
+    list-style: none;
+  }
+  .who-list li {
+    font-family: Arial, sans-serif;
+    font-size: 15px; color: var(--muted);
+    line-height: 1.6; padding-left: 1.5rem;
+    position: relative;
+  }
+  .who-list li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--copper);
+  }
+  .who-list strong { color: var(--cream); }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    padding: 6rem 1.5rem;
+    text-align: center;
+    max-width: 600px; margin: 0 auto;
+  }
+  .bottom-cta h2 {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 400; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .bottom-cta h2 em { font-style: italic; color: var(--copper); }
+  .bottom-cta p {
+    font-family: Arial, sans-serif;
+    font-size: 14px; color: var(--muted);
+    line-height: 1.7; margin-bottom: 2.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 1.5rem;
+    border-top: 1px solid var(--faint);
+    text-align: center;
+  }
+  footer p {
+    font-family: Arial, sans-serif;
+    font-size: 11px; color: rgba(240,230,210,0.25);
+    letter-spacing: 0.05em;
+  }
+  footer a { color: rgba(200,146,58,0.6); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .form-row { flex-direction: column; }
+    .form-submit { width: 100%; padding: 1rem; }
+    .proof { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <a class="logo" href="#">AOK</a>
+  <button class="topbar-cta" onclick="document.getElementById('form-main').scrollIntoView({behavior:'smooth'})">
+    Recevoir le guide →
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Guide gratuit</div>
+  <h1>Pourquoi ton corps stocke<br>même quand tu <em>fais tout bien</em></h1>
+  <p class="hero-sub">
+    Les 3 mécanismes biologiques que personne ne t'a expliqués —
+    et pourquoi ils sabotent tes efforts sans que tu le saches.
+  </p>
+
+  <div class="form-wrap" id="form-main">
+    <div class="form-row">
+      <input class="form-input" type="email" id="email-input"
+        placeholder="ton@email.com" autocomplete="email" />
+      <button class="form-submit" onclick="handleSubmit()">
+        Recevoir
+      </button>
+    </div>
+    <div class="form-success" id="form-success">
+      ✓ &nbsp;C'est envoyé. Vérifie ta boîte dans 2 minutes.<br>
+      <span style="font-size:12px;opacity:0.7;">Si tu ne reçois rien, regarde dans tes spams.</span>
+    </div>
+    <p class="form-privacy">
+      Aucune publicité. Aucune revente de données. Tu peux te désabonner à tout moment.
+    </p>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof">
+  <div class="proof-item">
+    <span class="proof-num">3</span>
+    <span class="proof-label">Mécanismes décryptés</span>
+  </div>
+  <div class="proof-item">
+    <span class="proof-num">12</span>
+    <span class="proof-label">Pages • Lecture rapide</span>
+  </div>
+  <div class="proof-item">
+    <span class="proof-num">0€</span>
+    <span class="proof-label">Gratuit, sans condition</span>
+  </div>
+</div>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside">
+  <div class="section-tag">Ce que tu vas lire</div>
+  <h2>Un guide sur les mécanismes réels,<br>pas les symptômes.</h2>
+  <p class="inside-sub">
+    Ce n'est pas un guide de régime. Pas de recettes, pas de "manger moins bouger plus".
+    C'est une explication biologique de ce qui se passe vraiment dans ton corps —
+    et pourquoi les solutions classiques ne peuvent pas fonctionner sur toi.
+  </p>
+
+  <div class="chapters">
+    <div class="chapter">
+      <span class="chapter-num">01 —</span>
+      <div>
+        <div class="chapter-title">Le cortisol au réveil : pourquoi tu te lèves épuisée</div>
+        <div class="chapter-desc">
+          Ce signal hormonal devrait être à son pic à 8h. Chez 34% des femmes en transition métabolique, il fait l'inverse. Ce que ça signifie concrètement pour ton énergie, ton poids, ton humeur.
+        </div>
+      </div>
+    </div>
+    <div class="chapter">
+      <span class="chapter-num">02 —</span>
+      <div>
+        <div class="chapter-title">La sarcopénie silencieuse : le muscle que tu perds sans le voir</div>
+        <div class="chapter-desc">
+          La première cause de regain de poids n'est pas l'alimentation. C'est la perte musculaire progressive — qui commence dès 30 ans et s'accélère après chaque régime.
+        </div>
+      </div>
+    </div>
+    <div class="chapter">
+      <span class="chapter-num">03 —</span>
+      <div>
+        <div class="chapter-title">L'absorption réelle : pourquoi tes compléments ne font rien</div>
+        <div class="chapter-desc">
+          La dose sur l'étiquette n'est pas ce qui arrive dans tes cellules. Microbiome, forme moléculaire, timing — les trois variables que personne ne mentionne.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS THIS FOR -->
+<section class="who">
+  <div class="who-inner">
+    <h2>Ce guide est pour toi si…</h2>
+    <ul class="who-list">
+      <li>Tu as <strong>suivi un programme bariatrique</strong> et tu sens que ton corps ne répond plus comme avant.</li>
+      <li>Tu traverses <strong>une transition hormonale</strong> — préménopause, ménopause, post-partum — et tu ne te reconnais plus.</li>
+      <li>Tu prends <strong>des compléments depuis des mois</strong> sans résultat visible et tu ne comprends pas pourquoi.</li>
+      <li>Tu es sous <strong>traitement GLP-1</strong> et tu veux comprendre ce qui se passe biologiquement.</li>
+      <li>Tu as l'impression de <strong>faire tout juste</strong> — manger correctement, bouger — et tu reprends quand même du poids.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <h2>Tu méritais cette<br>explication <em>depuis longtemps.</em></h2>
+  <p>
+    Ce que tu vas lire en 15 minutes va clarifier des années de frustration.
+    Pas de promesse magique — juste la mécanique réelle.
+  </p>
+
+  <div class="form-wrap" style="margin: 0 auto;">
+    <div class="form-row">
+      <input class="form-input" type="email" id="email-input-2"
+        placeholder="ton@email.com" autocomplete="email" />
+      <button class="form-submit" onclick="handleSubmit2()">
+        Recevoir
+      </button>
+    </div>
+    <div class="form-success" id="form-success-2">
+      ✓ &nbsp;Vérifie ta boîte dans 2 minutes.
+    </div>
+    <p class="form-privacy">
+      Aucune publicité. Aucune revente. Désabonnement en 1 clic.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    © 2026 Alpha Omega Key · Lyon, France ·
+    <a href="mailto:contact@alphaomegakey.com">contact@alphaomegakey.com</a>
+  </p>
+  <p style="margin-top:0.5rem;">
+    <a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Politique de confidentialité</a>
+  </p>
+</footer>
+
+<script>
+/*
+  ══════════════════════════════════════════════════════════
+  CONNEXION MAILCHIMP (recommandé — gratuit jusqu'à 500 contacts)
+  ══════════════════════════════════════════════════════════
+  1. Va sur mailchimp.com → Audience → Signup forms → Embedded forms
+  2. Copie l'action URL du formulaire (ressemble à :
+     https://xxxxxx.us1.list-manage.com/subscribe/post?u=xxx&id=xxx)
+  3. Remplace MAILCHIMP_ACTION_URL ci-dessous par cette URL
+
+  ══════════════════════════════════════════════════════════
+  CONNEXION CONVERTKIT (alternative, très bien pour séquences)
+  ══════════════════════════════════════════════════════════
+  1. Kit.com → Forms → Inline form → Embed
+  2. Copie l'action URL du form
+  3. Remplace MAILCHIMP_ACTION_URL par cette URL
+  4. Change le name du champ email si nécessaire (souvent "email_address")
+
+  ══════════════════════════════════════════════════════════
+  EN ATTENDANT : les emails sont loggés dans la console
+  du navigateur (F12 → Console) pour test.
+  ══════════════════════════════════════════════════════════
+*/
+const MAILCHIMP_ACTION_URL = ''; // ← Colle ton URL ici
+
+function submitEmail(email, successId) {
+  if (!email || !email.includes('@')) {
+    alert('Adresse email invalide.');
+    return;
+  }
+
+  if (MAILCHIMP_ACTION_URL) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = MAILCHIMP_ACTION_URL;
+    form.target = '_blank';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'EMAIL'; // Pour ConvertKit : changer en 'email_address'
+    input.value = email;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  } else {
+    // Mode test — affiche dans la console
+    console.log('[AOK] Nouvel email capturé :', email);
+  }
+
+  document.getElementById(successId).style.display = 'block';
+}
+
+function handleSubmit() {
+  const email = document.getElementById('email-input').value.trim();
+  document.querySelector('#form-main .form-row').style.display = 'none';
+  submitEmail(email, 'form-success');
+}
+
+function handleSubmit2() {
+  const email = document.getElementById('email-input-2').value.trim();
+  document.querySelector('.bottom-cta .form-row').style.display = 'none';
+  submitEmail(email, 'form-success-2');
+}
+
+// Scroll smooth sur Enter
+['email-input','email-input-2'].forEach((id, i) => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') i === 0 ? handleSubmit() : handleSubmit2();
+  });
+});
+</script>
+</body>
+</html>
