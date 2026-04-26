@@ -3,473 +3,1002 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AOK — Guide Gratuit</title>
+<title>AOK — Pourquoi ton corps stocke même quand tu fais tout bien</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ══════════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --sapphire:    #3C507D;
-    --royal:       #112250;
-    --quicksand:   #E0C58F;
-    --quicksand2:  #c9a96e;
-    --swan:        #F5F0E9;
-    --shell:       #D9CBC2;
-    --shell-dark:  #c4b2a7;
-    --text-main:   #112250;
-    --text-muted:  rgba(17,34,80,0.5);
-    --text-faint:  rgba(17,34,80,0.25);
-    --border:      rgba(17,34,80,0.12);
-    --border-gold: rgba(224,197,143,0.6);
-  }
+:root {
+  --royal:      #112250;
+  --sapphire:   #3C507D;
+  --quicksand:  #E0C58F;
+  --qs-dark:    #C9A96E;
+  --swan:       #F5F0E9;
+  --shell:      #D9CBC2;
+  --shell-mid:  #c9b5aa;
+  --white:      #FFFFFF;
+  --text:       #112250;
+  --muted:      rgba(17,34,80,0.52);
+  --faint:      rgba(17,34,80,0.14);
+  --border:     rgba(17,34,80,0.1);
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--swan);
-    color: var(--text-main);
-    font-family: 'Georgia', 'Times New Roman', serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--swan);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
 
-  /* ── TOP BAR ── */
-  .topbar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1.1rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(245,240,233,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    font-size: 13px; letter-spacing: 0.3em;
-    color: var(--royal); text-decoration: none;
-    text-transform: uppercase; font-weight: 400;
-  }
-  .topbar-cta {
-    font-family: Arial, sans-serif;
-    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--text-muted); cursor: pointer;
-    border: none; background: none; transition: color 0.2s;
-  }
-  .topbar-cta:hover { color: var(--royal); }
+/* ══════════════════════════════════════════
+   CUSTOM CURSOR
+══════════════════════════════════════════ */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--royal);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: multiply;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(17,34,80,0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.12s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(a:hover) .cursor,
+body:has(button:hover) .cursor { width: 16px; height: 16px; background: var(--qs-dark); }
+body:has(a:hover) .cursor-ring,
+body:has(button:hover) .cursor-ring { width: 48px; height: 48px; border-color: var(--qs-dark); }
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center;
-    padding: 8rem 1.5rem 4rem;
-    position: relative;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 55%, rgba(60,80,125,0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
+/* ══════════════════════════════════════════
+   NOISE GRAIN OVERLAY
+══════════════════════════════════════════ */
+.grain {
+  position: fixed; inset: -200%;
+  width: 400%; height: 400%;
+  pointer-events: none; z-index: 900;
+  opacity: 0.028;
+  animation: grain-shift 0.8s steps(1) infinite;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+@keyframes grain-shift {
+  0%  { transform: translate(0,0); }
+  10% { transform: translate(-5%,-10%); }
+  20% { transform: translate(-15%,5%); }
+  30% { transform: translate(7%,-25%); }
+  40% { transform: translate(-5%,25%); }
+  50% { transform: translate(-15%,10%); }
+  60% { transform: translate(15%); }
+  70% { transform: translate(0,15%); }
+  80% { transform: translate(3%,35%); }
+  90% { transform: translate(-10%,10%); }
+}
 
-  .hero-tag {
-    font-family: Arial, sans-serif;
-    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--sapphire); margin-bottom: 2rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .hero-tag::before, .hero-tag::after {
-    content: ''; display: block; width: 30px; height: 1px;
-    background: var(--quicksand);
-  }
+/* ══════════════════════════════════════════
+   TOPBAR
+══════════════════════════════════════════ */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+  padding: 1.25rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(245,240,233,0);
+  transition: background 0.5s, border-color 0.5s;
+  border-bottom: 1px solid transparent;
+}
+.topbar.scrolled {
+  background: rgba(245,240,233,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--border);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-weight: 400;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--royal); text-decoration: none;
+}
+.topbar-cta {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); background: none; border: none; cursor: none;
+  transition: color 0.2s;
+}
+.topbar-cta:hover { color: var(--royal); }
 
-  .hero h1 {
-    font-size: clamp(2rem, 6vw, 4.5rem);
-    font-weight: 400; line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--royal);
-    max-width: 760px; margin-bottom: 1.5rem;
-  }
-  .hero h1 em {
-    font-style: italic; color: var(--sapphire);
-  }
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 7rem 1.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
 
-  .hero-sub {
-    font-family: Arial, sans-serif;
-    font-size: clamp(14px, 2vw, 16px);
-    color: var(--text-muted); line-height: 1.7;
-    max-width: 520px; margin-bottom: 3rem;
-  }
+/* Abstract SVG background */
+.hero-bg {
+  position: absolute; inset: 0;
+  overflow: hidden; z-index: 0;
+}
+.hero-bg svg {
+  position: absolute;
+  width: 100%; height: 100%;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orb-float linear infinite;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(60,80,125,0.12) 0%, transparent 70%);
+  top: -10%; left: -5%;
+  animation-duration: 20s;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(224,197,143,0.15) 0%, transparent 70%);
+  bottom: 5%; right: 5%;
+  animation-duration: 15s; animation-direction: reverse;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(17,34,80,0.07) 0%, transparent 70%);
+  top: 40%; right: 20%;
+  animation-duration: 25s;
+}
+@keyframes orb-float {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(30px,-20px) scale(1.05); }
+  66% { transform: translate(-20px,30px) scale(0.95); }
+}
 
-  /* ── FORM ── */
-  .form-wrap {
-    width: 100%; max-width: 460px;
-    display: flex; flex-direction: column; gap: 0.75rem;
-  }
-  .form-row {
-    display: flex;
-    border: 1px solid var(--border);
-    border-radius: 3px; overflow: hidden;
-    transition: border-color 0.2s;
-    background: white;
-    box-shadow: 0 2px 12px rgba(17,34,80,0.06);
-  }
-  .form-row:focus-within { border-color: var(--sapphire); }
+/* Hero lines décoratives */
+.hero-line {
+  position: absolute;
+  background: var(--border);
+  pointer-events: none;
+}
+.hero-line-h {
+  left: 0; right: 0; height: 1px;
+  animation: line-fade-in 2s ease forwards;
+  opacity: 0;
+}
+.hero-line-1 { top: 35%; animation-delay: 0.8s; }
+.hero-line-2 { top: 72%; animation-delay: 1.2s; }
+.hero-line-v {
+  top: 0; bottom: 0; width: 1px;
+  animation: line-fade-in 2s ease forwards;
+  opacity: 0;
+}
+.hero-line-3 { left: 8%; animation-delay: 1s; }
+.hero-line-4 { right: 8%; animation-delay: 1.4s; }
+@keyframes line-fade-in { to { opacity: 1; } }
 
-  .form-input {
-    flex: 1; padding: 1rem 1.25rem;
-    background: transparent;
-    border: none; outline: none;
-    color: var(--royal);
-    font-family: Arial, sans-serif; font-size: 14px;
-    min-width: 0;
-  }
-  .form-input::placeholder { color: var(--text-faint); }
+/* Hero content */
+.hero-inner {
+  position: relative; z-index: 1;
+  text-align: center;
+  max-width: 800px;
+}
 
-  .form-submit {
-    padding: 1rem 1.5rem;
-    background: var(--royal);
-    border: none; cursor: pointer;
-    color: var(--quicksand);
-    font-family: Arial, sans-serif;
-    font-size: 11px; font-weight: bold;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    white-space: nowrap;
-    transition: background 0.2s;
-  }
-  .form-submit:hover { background: var(--sapphire); }
+.hero-tag {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--qs-dark);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin-bottom: 2.5rem;
+  opacity: 0; animation: fade-up 0.8s ease 0.3s forwards;
+}
+.hero-tag-line { width: 32px; height: 1px; background: var(--quicksand); }
 
-  .form-privacy {
-    font-family: Arial, sans-serif;
-    font-size: 11px; color: var(--text-faint);
-    text-align: center; line-height: 1.5;
-  }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 300; line-height: 1.07;
+  letter-spacing: -0.02em;
+  color: var(--royal);
+  margin-bottom: 2rem;
+}
+/* Chaque word group animé */
+.word-line {
+  display: block; overflow: hidden;
+}
+.word-reveal {
+  display: inline-block;
+  opacity: 0; transform: translateY(40px);
+  animation: word-in 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.word-reveal:nth-child(1) { animation-delay: 0.5s; }
+.word-reveal:nth-child(2) { animation-delay: 0.65s; }
+.word-reveal:nth-child(3) { animation-delay: 0.8s; }
+.word-reveal:nth-child(4) { animation-delay: 0.95s; }
+@keyframes word-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+.title-em {
+  font-style: italic; color: var(--sapphire);
+}
 
-  .form-success {
-    display: none;
-    padding: 1.25rem 1.5rem;
-    border: 1px solid rgba(60,80,125,0.2);
-    background: rgba(60,80,125,0.05);
-    border-radius: 3px;
-    font-family: Arial, sans-serif;
-    font-size: 14px; color: var(--sapphire);
-    text-align: center; line-height: 1.6;
-  }
+.hero-sub {
+  font-size: 15px; font-weight: 300;
+  color: var(--muted); line-height: 1.8;
+  max-width: 480px; margin: 0 auto 3rem;
+  opacity: 0; animation: fade-up 0.8s ease 1.2s forwards;
+}
 
-  /* ── PROOF BAR ── */
-  .proof {
-    padding: 1.75rem 2rem;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: white;
-    display: flex; justify-content: center;
-    gap: 3rem; flex-wrap: wrap;
-  }
-  .proof-item { text-align: center; }
-  .proof-num {
-    display: block; font-size: 1.6rem;
-    color: var(--royal); line-height: 1;
-  }
-  .proof-label {
-    display: block; font-size: 10px;
-    color: var(--text-muted); letter-spacing: 0.1em;
-    text-transform: uppercase; margin-top: 4px;
-    font-family: Arial, sans-serif;
-  }
+/* Form hero */
+.form-hero {
+  opacity: 0; animation: fade-up 0.8s ease 1.4s forwards;
+}
+.form-group {
+  display: flex;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(17,34,80,0.08), 0 1px 3px rgba(17,34,80,0.06);
+  transition: box-shadow 0.3s, border-color 0.3s;
+  max-width: 440px; margin: 0 auto;
+}
+.form-group:focus-within {
+  border-color: var(--sapphire);
+  box-shadow: 0 4px 24px rgba(17,34,80,0.14), 0 0 0 3px rgba(60,80,125,0.08);
+}
+.form-input {
+  flex: 1; min-width: 0;
+  padding: 1.1rem 1.25rem;
+  border: none; outline: none; background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 300;
+  color: var(--royal);
+}
+.form-input::placeholder { color: rgba(17,34,80,0.3); }
+.form-btn {
+  padding: 1.1rem 1.5rem;
+  background: var(--royal); border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--quicksand); cursor: none;
+  white-space: nowrap;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.form-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.form-btn:hover { background: var(--sapphire); }
+.form-btn:hover::after { background: rgba(255,255,255,0.04); }
 
-  /* ── DIVIDER ── */
-  .divider {
-    display: flex; align-items: center;
-    gap: 1rem; padding: 0 1.5rem;
-    max-width: 700px; margin: 0 auto;
-  }
-  .divider-line { flex: 1; height: 1px; background: var(--border-gold); }
-  .divider-icon { color: var(--quicksand2); font-size: 16px; }
+.form-privacy {
+  font-size: 11px; font-weight: 300;
+  color: rgba(17,34,80,0.3);
+  text-align: center; margin-top: 0.75rem;
+  letter-spacing: 0.02em;
+}
+.form-success {
+  display: none;
+  padding: 1rem 1.5rem;
+  background: rgba(60,80,125,0.06);
+  border: 1px solid rgba(60,80,125,0.2);
+  border-radius: 2px;
+  font-size: 14px; color: var(--sapphire);
+  text-align: center; line-height: 1.6;
+}
 
-  /* ── WHAT'S INSIDE ── */
-  .inside {
-    padding: 5rem 1.5rem;
-    max-width: 700px; margin: 0 auto;
-  }
-  .section-tag {
-    font-family: Arial, sans-serif;
-    font-size: 10px; letter-spacing: 0.25em;
-    text-transform: uppercase; color: var(--sapphire);
-    margin-bottom: 2rem;
-  }
-  .inside h2 {
-    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
-    font-weight: 400; line-height: 1.25;
-    color: var(--royal); margin-bottom: 1rem;
-  }
-  .inside-sub {
-    font-family: Arial, sans-serif;
-    font-size: 15px; color: var(--text-muted);
-    line-height: 1.7; margin-bottom: 3rem;
-  }
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px; z-index: 1;
+  opacity: 0; animation: fade-up 1s ease 2s forwards;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--qs-dark), transparent);
+  animation: scroll-pulse 2s ease infinite;
+}
+@keyframes scroll-pulse {
+  0%,100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(0.6); }
+}
+.scroll-text {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(17,34,80,0.3);
+}
 
-  .chapters { display: flex; flex-direction: column; gap: 0; }
-  .chapter {
-    display: grid; grid-template-columns: 40px 1fr;
-    gap: 1.25rem; align-items: start;
-    padding: 1.5rem 1.5rem 1.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .chapter:last-child { border-bottom: none; }
-  .chapter-num {
-    font-size: 11px; color: var(--quicksand2);
-    font-family: Arial, sans-serif;
-    letter-spacing: 0.1em; padding-top: 3px;
-  }
-  .chapter-title {
-    font-size: 1.05rem; font-style: italic;
-    color: var(--royal); margin-bottom: 0.4rem;
-  }
-  .chapter-desc {
-    font-family: Arial, sans-serif;
-    font-size: 13px; color: var(--text-muted); line-height: 1.6;
-  }
+/* ══════════════════════════════════════════
+   PROOF BAR
+══════════════════════════════════════════ */
+.proof-bar {
+  background: var(--royal);
+  padding: 2rem;
+  display: flex; justify-content: center; gap: 0;
+}
+.proof-item {
+  flex: 1; max-width: 180px;
+  text-align: center; padding: 0 1.5rem;
+  position: relative;
+}
+.proof-item + .proof-item::before {
+  content: ''; position: absolute; left: 0; top: 10%; bottom: 10%;
+  width: 1px; background: rgba(224,197,143,0.2);
+}
+.proof-num {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem; font-weight: 300;
+  color: var(--quicksand); line-height: 1;
+  margin-bottom: 6px;
+}
+.proof-label {
+  display: block; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(224,197,143,0.45);
+}
 
-  /* ── WHO ── */
-  .who {
-    padding: 5rem 1.5rem;
-    background: var(--shell);
-  }
-  .who-inner { max-width: 700px; margin: 0 auto; }
-  .who h2 {
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 400; line-height: 1.3;
-    color: var(--royal); margin-bottom: 2.5rem;
-  }
-  .who-list {
-    display: flex; flex-direction: column;
-    gap: 1rem; list-style: none;
-  }
-  .who-list li {
-    font-family: Arial, sans-serif;
-    font-size: 15px; color: rgba(17,34,80,0.7);
-    line-height: 1.6; padding-left: 1.5rem; position: relative;
-  }
-  .who-list li::before {
-    content: '—'; position: absolute; left: 0;
-    color: var(--quicksand2);
-  }
-  .who-list strong { color: var(--royal); }
+/* ══════════════════════════════════════════
+   REVEAL ANIMATION SYSTEM
+══════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+              transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left {
+  opacity: 0; transform: translateX(-28px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+              transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
 
-  /* ── BOTTOM CTA ── */
-  .bottom-cta {
-    padding: 6rem 1.5rem;
-    text-align: center;
-    max-width: 600px; margin: 0 auto;
-  }
-  .bottom-cta h2 {
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
-    font-weight: 400; line-height: 1.2;
-    color: var(--royal); margin-bottom: 1rem;
-  }
-  .bottom-cta h2 em { font-style: italic; color: var(--sapphire); }
-  .bottom-cta p {
-    font-family: Arial, sans-serif;
-    font-size: 14px; color: var(--text-muted);
-    line-height: 1.7; margin-bottom: 2.5rem;
-  }
+/* stagger delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 2rem 1.5rem;
-    border-top: 1px solid var(--border);
-    background: white;
-    text-align: center;
-  }
-  footer p {
-    font-family: Arial, sans-serif;
-    font-size: 11px; color: var(--text-faint);
-    letter-spacing: 0.05em;
-  }
-  footer a { color: var(--sapphire); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+/* ══════════════════════════════════════════
+   SECTION SHARED
+══════════════════════════════════════════ */
+.section-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--qs-dark); margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.section-label::after {
+  content: ''; display: block; flex: 1;
+  max-width: 48px; height: 1px;
+  background: var(--quicksand); opacity: 0.5;
+}
 
-  @media (max-width: 500px) {
-    .form-row { flex-direction: column; }
-    .form-submit { width: 100%; padding: 1rem; }
-    .proof { gap: 1.5rem; }
-  }
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; line-height: 1.2;
+  color: var(--royal);
+}
+
+/* ══════════════════════════════════════════
+   AU PROGRAMME
+══════════════════════════════════════════ */
+.chapters-section {
+  padding: 6rem 1.5rem;
+  max-width: 740px; margin: 0 auto;
+}
+.chapters-section h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 1rem;
+}
+.chapters-sub {
+  font-size: 15px; font-weight: 300;
+  color: var(--muted); line-height: 1.75;
+  margin-bottom: 4rem; max-width: 520px;
+}
+
+.chapter {
+  display: grid; grid-template-columns: 52px 1fr;
+  gap: 1.5rem; align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.chapter:last-child { border-bottom: none; }
+
+/* Ligne animée au hover */
+.chapter::before {
+  content: ''; position: absolute;
+  left: 0; bottom: -1px; width: 0; height: 1px;
+  background: var(--quicksand);
+  transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.chapter:hover::before { width: 100%; }
+
+.chapter-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--qs-dark); letter-spacing: 0.1em;
+  padding-top: 4px;
+}
+.chapter-body {}
+.chapter-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-style: italic; font-weight: 400;
+  color: var(--royal); margin-bottom: 0.6rem;
+  transition: color 0.2s;
+}
+.chapter:hover .chapter-title { color: var(--sapphire); }
+.chapter-desc {
+  font-size: 13px; font-weight: 300;
+  color: var(--muted); line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════
+   POUR TOI SI — section en bandes
+══════════════════════════════════════════ */
+.for-you {
+  background: var(--shell);
+  overflow: hidden;
+  position: relative;
+}
+.for-you::before {
+  content: '';
+  position: absolute; top: -2px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--shell-mid), transparent);
+}
+.for-you-inner {
+  max-width: 740px; margin: 0 auto;
+  padding: 6rem 1.5rem;
+}
+.for-you h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 3.5rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--shell-mid);
+  border: 1px solid var(--shell-mid);
+}
+.card {
+  background: var(--shell);
+  padding: 2rem 1.75rem;
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
+}
+.card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(17,34,80,0);
+  transition: background 0.4s;
+}
+.card:hover { background: #cfc0b5; }
+.card-dash {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; color: var(--qs-dark);
+  margin-bottom: 0.75rem; display: block;
+}
+.card-text {
+  font-size: 14px; font-weight: 300;
+  color: rgba(17,34,80,0.75); line-height: 1.65;
+}
+.card-text strong { font-weight: 500; color: var(--royal); }
+
+/* ══════════════════════════════════════════
+   CITATION / MANIFESTE
+══════════════════════════════════════════ */
+.manifeste {
+  padding: 7rem 1.5rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.manifeste-bg-text {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(80px, 18vw, 180px);
+  font-weight: 300; color: rgba(17,34,80,0.04);
+  white-space: nowrap; pointer-events: none;
+  letter-spacing: -0.04em; z-index: 0;
+}
+.manifeste-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.quote-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem; line-height: 0.5;
+  color: var(--quicksand); display: block;
+  margin-bottom: 1.5rem; opacity: 0.6;
+}
+.manifeste-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 300; font-style: italic;
+  color: var(--royal); line-height: 1.45;
+  margin-bottom: 1.5rem;
+}
+.manifeste-attr {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--qs-dark);
+}
+
+/* ══════════════════════════════════════════
+   CTA FINAL
+══════════════════════════════════════════ */
+.final-cta {
+  background: var(--royal);
+  padding: 7rem 1.5rem;
+  text-align: center; position: relative;
+  overflow: hidden;
+}
+.final-cta-orb {
+  position: absolute;
+  border-radius: 50%; filter: blur(80px);
+  pointer-events: none;
+}
+.final-cta-orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(224,197,143,0.08) 0%, transparent 60%);
+  top: -100px; right: -100px;
+}
+.final-cta-orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(60,80,125,0.3) 0%, transparent 60%);
+  bottom: -80px; left: -80px;
+}
+.final-cta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+.final-cta h2 {
+  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  color: var(--swan); margin-bottom: 1rem;
+}
+.final-cta h2 em { font-style: italic; color: var(--quicksand); }
+.final-cta p {
+  font-size: 15px; font-weight: 300;
+  color: rgba(245,240,233,0.55); line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* Bouton final — effet magnétique */
+.btn-primary {
+  display: inline-block;
+  padding: 1.1rem 3rem;
+  background: var(--quicksand);
+  color: var(--royal);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border: none; cursor: none;
+  border-radius: 1px; text-decoration: none;
+  position: relative; overflow: hidden;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s;
+}
+.btn-primary:hover { background: var(--qs-dark); }
+.btn-primary:hover::before { left: 100%; }
+
+/* Form dans final CTA */
+.form-final {
+  max-width: 420px; margin: 2.5rem auto 0;
+}
+.form-group-dark {
+  display: flex;
+  background: rgba(245,240,233,0.06);
+  border: 1px solid rgba(224,197,143,0.25);
+  border-radius: 2px; overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-group-dark:focus-within {
+  border-color: rgba(224,197,143,0.6);
+  box-shadow: 0 0 0 3px rgba(224,197,143,0.08);
+}
+.form-input-dark {
+  flex: 1; min-width: 0; padding: 1.1rem 1.25rem;
+  border: none; outline: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 300;
+  color: var(--swan);
+}
+.form-input-dark::placeholder { color: rgba(245,240,233,0.3); }
+.form-btn-dark {
+  padding: 1.1rem 1.5rem;
+  background: var(--quicksand); border: none; cursor: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--royal); white-space: nowrap;
+  transition: background 0.2s;
+}
+.form-btn-dark:hover { background: var(--qs-dark); }
+.form-final-note {
+  font-size: 11px; font-weight: 300;
+  color: rgba(245,240,233,0.3);
+  margin-top: 0.75rem;
+}
+.form-success-dark {
+  display: none; padding: 1rem 1.5rem;
+  background: rgba(224,197,143,0.08);
+  border: 1px solid rgba(224,197,143,0.2);
+  border-radius: 2px;
+  font-size: 14px; color: var(--quicksand);
+  text-align: center; line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  padding: 2.5rem 1.5rem;
+  background: #0b0f1c;
+  text-align: center;
+}
+footer p {
+  font-size: 11px; font-weight: 300;
+  color: rgba(245,240,233,0.2);
+  letter-spacing: 0.06em; line-height: 2;
+}
+footer a { color: rgba(224,197,143,0.5); text-decoration: none; transition: color 0.2s; }
+footer a:hover { color: var(--quicksand); }
+
+/* ══════════════════════════════════════════
+   KEYFRAMES UTILITAIRES
+══════════════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .topbar { padding: 1rem 1.25rem; }
+  .hero-line-v { display: none; }
+  .form-group, .form-group-dark { flex-direction: column; }
+  .form-btn, .form-btn-dark { padding: 1rem; }
+  .proof-bar { gap: 0; }
+  .proof-item { padding: 0 0.75rem; }
+  .cards-grid { grid-template-columns: 1fr; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <a class="logo" href="#">AOK</a>
-  <button class="topbar-cta" onclick="document.getElementById('form-main').scrollIntoView({behavior:'smooth'})">
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- GRAIN -->
+<div class="grain"></div>
+
+<!-- TOPBAR -->
+<header class="topbar" id="topbar">
+  <a class="logo" href="#">A O K</a>
+  <button class="topbar-cta" onclick="document.getElementById('form-hero').scrollIntoView({behavior:'smooth'})">
     Recevoir le guide →
   </button>
 </header>
 
+<!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-tag">Guide gratuit</div>
-  <h1>Pourquoi ton corps stocke<br>même quand tu <em>fais tout bien</em></h1>
-  <p class="hero-sub">
-    Les 3 mécanismes biologiques que personne ne t'a expliqués —
-    et pourquoi ils sabotent tes efforts sans que tu le saches.
-  </p>
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="hero-line hero-line-h hero-line-1"></div>
+  <div class="hero-line hero-line-h hero-line-2"></div>
+  <div class="hero-line hero-line-v hero-line-3"></div>
+  <div class="hero-line hero-line-v hero-line-4"></div>
 
-  <div class="form-wrap" id="form-main">
-    <div class="form-row">
-      <input class="form-input" type="email" id="email-input"
-        placeholder="ton@email.com" autocomplete="email" />
-      <button class="form-submit" onclick="handleSubmit()">Recevoir</button>
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <span class="hero-tag-line"></span>
+      Guide gratuit
+      <span class="hero-tag-line"></span>
     </div>
-    <div class="form-success" id="form-success">
-      ✓ &nbsp;C'est envoyé. Vérifie ta boîte dans 2 minutes.<br>
-      <span style="font-size:12px;opacity:0.7;">Rien reçu ? Regarde dans tes spams.</span>
-    </div>
-    <p class="form-privacy">
-      Aucune publicité. Aucune revente. Désabonnement en 1 clic.
+
+    <h1 class="hero-title">
+      <span class="word-line">
+        <span class="word-reveal">Pourquoi&nbsp;ton&nbsp;corps&nbsp;stocke</span>
+      </span>
+      <span class="word-line">
+        <span class="word-reveal">même&nbsp;quand&nbsp;tu</span>
+      </span>
+      <span class="word-line">
+        <span class="word-reveal"><em class="title-em">fais&nbsp;tout&nbsp;bien</em></span>
+      </span>
+    </h1>
+
+    <p class="hero-sub">
+      Les 3 mécanismes biologiques que personne ne t'a expliqués —
+      et pourquoi ils sabotent tes efforts sans que tu le saches.
     </p>
+
+    <div class="form-hero" id="form-hero">
+      <div class="form-group" id="fg-hero">
+        <input class="form-input" type="email" id="email-hero"
+          placeholder="ton@email.com" autocomplete="email" />
+        <button class="form-btn" onclick="submit('email-hero','success-hero','fg-hero')">
+          Recevoir
+        </button>
+      </div>
+      <div class="form-success" id="success-hero">
+        ✦ &nbsp;C'est envoyé — vérifie ta boîte dans 2 minutes.
+      </div>
+      <p class="form-privacy">Aucune publicité · Aucune revente · Désabonnement en 1 clic</p>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Lire</span>
   </div>
 </section>
 
-<div class="proof">
+<!-- ── PROOF BAR ── -->
+<div class="proof-bar">
   <div class="proof-item">
-    <span class="proof-num">3</span>
+    <span class="proof-num" data-count="3" data-suffix="">0</span>
     <span class="proof-label">Mécanismes décryptés</span>
   </div>
   <div class="proof-item">
-    <span class="proof-num">12</span>
+    <span class="proof-num" data-count="12" data-suffix="">0</span>
     <span class="proof-label">Pages · Lecture rapide</span>
   </div>
   <div class="proof-item">
-    <span class="proof-num">0€</span>
+    <span class="proof-num" data-count="0" data-suffix="€">0€</span>
     <span class="proof-label">Gratuit, sans condition</span>
   </div>
 </div>
 
-<section class="inside">
-  <div class="section-tag">Ce que tu vas lire</div>
-  <h2>Un guide sur les mécanismes réels,<br>pas les symptômes.</h2>
-  <p class="inside-sub">
-    Ce n'est pas un guide de régime. Pas de recettes, pas de "manger moins bouger plus".
-    C'est une explication biologique de ce qui se passe vraiment dans ton corps —
-    et pourquoi les solutions classiques ne peuvent pas fonctionner sur toi.
+<!-- ── AU PROGRAMME ── -->
+<section class="chapters-section">
+  <div class="reveal">
+    <div class="section-label">Au programme</div>
+    <h2>Un guide sur les mécanismes réels,<br>pas les symptômes.</h2>
+  </div>
+  <p class="chapters-sub reveal delay-1">
+    Ce n'est pas un guide de régime. C'est une explication biologique de ce
+    qui se passe vraiment dans ton corps — et pourquoi les solutions classiques
+    ne peuvent structurellement pas fonctionner sur toi.
   </p>
 
-  <div class="chapters">
-    <div class="chapter">
-      <span class="chapter-num">01 —</span>
-      <div>
-        <div class="chapter-title">Le cortisol au réveil : pourquoi tu te lèves épuisée</div>
-        <div class="chapter-desc">
-          Ce signal hormonal devrait être à son pic à 8h. Chez 34% des femmes en transition métabolique, il fait l'inverse. Ce que ça signifie concrètement pour ton énergie, ton poids, ton humeur.
-        </div>
+  <div class="chapter reveal delay-1">
+    <span class="chapter-num">01 —</span>
+    <div class="chapter-body">
+      <div class="chapter-title">Le cortisol au réveil : pourquoi tu te lèves épuisée</div>
+      <div class="chapter-desc">
+        Ce signal hormonal devrait être à son pic à 8h. Chez 34% des femmes
+        en transition métabolique, il fait l'inverse. Ce que ça signifie
+        concrètement pour ton énergie, ton poids, ton humeur.
       </div>
     </div>
-    <div class="chapter">
-      <span class="chapter-num">02 —</span>
-      <div>
-        <div class="chapter-title">La sarcopénie silencieuse : le muscle que tu perds sans le voir</div>
-        <div class="chapter-desc">
-          La première cause de regain de poids n'est pas l'alimentation. C'est la perte musculaire progressive — qui commence dès 30 ans et s'accélère après chaque régime.
-        </div>
+  </div>
+
+  <div class="chapter reveal delay-2">
+    <span class="chapter-num">02 —</span>
+    <div class="chapter-body">
+      <div class="chapter-title">La sarcopénie silencieuse : le muscle que tu perds sans le voir</div>
+      <div class="chapter-desc">
+        La première cause de regain de poids n'est pas l'alimentation.
+        C'est la perte musculaire progressive — qui commence dès 30 ans
+        et s'accélère après chaque régime.
       </div>
     </div>
-    <div class="chapter">
-      <span class="chapter-num">03 —</span>
-      <div>
-        <div class="chapter-title">L'absorption réelle : pourquoi tes compléments ne font rien</div>
-        <div class="chapter-desc">
-          La dose sur l'étiquette n'est pas ce qui arrive dans tes cellules. Microbiome, forme moléculaire, timing — les trois variables que personne ne mentionne.
-        </div>
+  </div>
+
+  <div class="chapter reveal delay-3">
+    <span class="chapter-num">03 —</span>
+    <div class="chapter-body">
+      <div class="chapter-title">L'absorption réelle : pourquoi tes compléments ne font rien</div>
+      <div class="chapter-desc">
+        La dose sur l'étiquette n'est pas ce qui arrive dans tes cellules.
+        Microbiome, forme moléculaire, timing — les trois variables
+        que personne ne mentionne.
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider">
-  <div class="divider-line"></div>
-  <div class="divider-icon">◆</div>
-  <div class="divider-line"></div>
-</div>
-
-<section class="who">
-  <div class="who-inner">
-    <h2>Ce guide est pour toi si…</h2>
-    <ul class="who-list">
-      <li>Tu as <strong>suivi un programme bariatrique</strong> et tu sens que ton corps ne répond plus comme avant.</li>
-      <li>Tu traverses <strong>une transition hormonale</strong> — préménopause, ménopause, post-partum — et tu ne te reconnais plus.</li>
-      <li>Tu prends <strong>des compléments depuis des mois</strong> sans résultat visible et tu ne comprends pas pourquoi.</li>
-      <li>Tu es sous <strong>traitement GLP-1</strong> et tu veux comprendre ce qui se passe biologiquement.</li>
-      <li>Tu as l'impression de <strong>faire tout juste</strong> — manger correctement, bouger — et tu reprends quand même du poids.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="bottom-cta">
-  <h2>Tu méritais cette explication<br><em>depuis longtemps.</em></h2>
-  <p>
-    Ce que tu vas lire en 15 minutes va clarifier des années de frustration.
-    Pas de promesse magique — juste la mécanique réelle.
-  </p>
-
-  <div class="form-wrap" style="margin: 0 auto;">
-    <div class="form-row">
-      <input class="form-input" type="email" id="email-input-2"
-        placeholder="ton@email.com" autocomplete="email" />
-      <button class="form-submit" onclick="handleSubmit2()">Recevoir</button>
-    </div>
-    <div class="form-success" id="form-success-2">
-      ✓ &nbsp;Vérifie ta boîte dans 2 minutes.
-    </div>
-    <p class="form-privacy">
-      Aucune publicité. Aucune revente. Désabonnement en 1 clic.
+<!-- ── MANIFESTE ── -->
+<section class="manifeste">
+  <div class="manifeste-bg-text">AOK</div>
+  <div class="manifeste-inner reveal">
+    <span class="quote-mark">"</span>
+    <p class="manifeste-text">
+      Ce n'est pas un problème de volonté.<br>
+      C'est un problème de signal biologique.<br>
+      Et les signaux, ça se corrige.
     </p>
+    <span class="manifeste-attr">Alpha Omega Key · Science · Corps · Mental</span>
   </div>
 </section>
 
+<!-- ── POUR TOI SI ── -->
+<section class="for-you">
+  <div class="for-you-inner">
+    <div class="reveal">
+      <div class="section-label">Ce guide est pour toi si…</div>
+      <h2>Tu te reconnais<br>dans au moins une de ces situations.</h2>
+    </div>
+
+    <div class="cards-grid" style="margin-top:3rem;">
+      <div class="card reveal delay-1">
+        <span class="card-dash">—</span>
+        <p class="card-text">Tu as <strong>suivi un programme bariatrique</strong> et tu sens que ton corps ne répond plus comme avant.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <span class="card-dash">—</span>
+        <p class="card-text">Tu traverses <strong>une transition hormonale</strong> — préménopause, ménopause, post-partum — et tu ne te reconnais plus.</p>
+      </div>
+      <div class="card reveal delay-3">
+        <span class="card-dash">—</span>
+        <p class="card-text">Tu prends <strong>des compléments depuis des mois</strong> sans résultat visible et tu ne comprends pas pourquoi.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <span class="card-dash">—</span>
+        <p class="card-text">Tu es sous <strong>traitement GLP-1</strong> et tu veux comprendre ce qui se passe biologiquement.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <span class="card-dash">—</span>
+        <p class="card-text">Tu as l'impression de <strong>faire tout juste</strong> — manger correctement, bouger — et tu reprends quand même du poids.</p>
+      </div>
+      <div class="card reveal delay-3" style="background:var(--royal);display:flex;align-items:center;justify-content:center;">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(224,197,143,0.7);text-align:center;line-height:1.6;">
+          "On ne corrige pas.<br>On reprogramme."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="final-cta">
+  <div class="final-cta-orb final-cta-orb-1"></div>
+  <div class="final-cta-orb final-cta-orb-2"></div>
+  <div class="final-cta-inner">
+    <div class="reveal">
+      <h2>Tu méritais cette explication<br><em>depuis longtemps.</em></h2>
+      <p>15 minutes de lecture. Des années de frustration clarifiées.<br>Pas de promesse magique — juste la mécanique réelle.</p>
+    </div>
+
+    <div class="form-final reveal delay-1">
+      <div class="form-group-dark" id="fg-final">
+        <input class="form-input-dark" type="email" id="email-final"
+          placeholder="ton@email.com" autocomplete="email" />
+        <button class="form-btn-dark" onclick="submit('email-final','success-final','fg-final')">
+          Recevoir
+        </button>
+      </div>
+      <div class="form-success-dark" id="success-final">
+        ✦ &nbsp;Vérifie ta boîte dans 2 minutes.
+      </div>
+      <p class="form-final-note">Aucune publicité · Aucune revente · Désabonnement en 1 clic</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
   <p>© 2026 Alpha Omega Key · Lyon, France · <a href="mailto:contact@alphaomegakey.com">contact@alphaomegakey.com</a></p>
-  <p style="margin-top:0.5rem;"><a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Politique de confidentialité</a></p>
+  <p><a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Politique de confidentialité</a></p>
 </footer>
 
 <script>
-/*
-  CONNEXION MAILCHIMP — remplace l'URL ci-dessous par ton action URL
-  (Audience → Signup forms → Embedded forms → copie l'action du form)
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let rx = 0, ry = 0, mx = 0, my = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
+animRing();
 
-  CONNEXION CONVERTKIT — même chose, change aussi le name du champ
-  email de "EMAIL" en "email_address"
-*/
-const MAILCHIMP_ACTION_URL = '';
+/* ── TOPBAR SCROLL ── */
+const topbar = document.getElementById('topbar');
+window.addEventListener('scroll', () => {
+  topbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
 
-function submitEmail(email, successId, rowSelector) {
-  if (!email || !email.includes('@')) { alert('Adresse email invalide.'); return; }
-  if (MAILCHIMP_ACTION_URL) {
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    if (target === 0) { el.textContent = '0' + suffix; countObserver.unobserve(el); return; }
+    let start = 0;
+    const duration = 1200;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const val = Math.round(eased * target);
+      el.textContent = val + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(update);
+    countObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.proof-num[data-count]').forEach(el => countObserver.observe(el));
+
+/* ── FORM SUBMIT ── */
+const MAILCHIMP_URL = ''; // ← colle ton URL Mailchimp ici
+
+function submit(inputId, successId, groupId) {
+  const email = document.getElementById(inputId).value.trim();
+  if (!email || !email.includes('@')) { document.getElementById(inputId).style.borderBottom = '1px solid red'; return; }
+
+  if (MAILCHIMP_URL) {
     const f = document.createElement('form');
-    f.method = 'POST'; f.action = MAILCHIMP_ACTION_URL; f.target = '_blank';
+    f.method = 'POST'; f.action = MAILCHIMP_URL; f.target = '_blank';
     const i = document.createElement('input');
     i.type = 'hidden'; i.name = 'EMAIL'; i.value = email;
-    f.appendChild(i); document.body.appendChild(f); f.submit();
-    document.body.removeChild(f);
+    f.appendChild(i); document.body.appendChild(f); f.submit(); document.body.removeChild(f);
   } else {
     console.log('[AOK] Email capturé :', email);
   }
-  document.querySelector(rowSelector).style.display = 'none';
+
+  document.getElementById(groupId).style.display = 'none';
   document.getElementById(successId).style.display = 'block';
 }
 
-function handleSubmit() {
-  submitEmail(
-    document.getElementById('email-input').value.trim(),
-    'form-success', '#form-main .form-row'
-  );
-}
-function handleSubmit2() {
-  submitEmail(
-    document.getElementById('email-input-2').value.trim(),
-    'form-success-2', '.bottom-cta .form-row'
-  );
-}
-
-['email-input','email-input-2'].forEach((id, i) => {
-  document.getElementById(id).addEventListener('keydown', e => {
-    if (e.key === 'Enter') i === 0 ? handleSubmit() : handleSubmit2();
+/* ── ENTER KEY ── */
+['email-hero','email-final'].forEach((id, i) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const pairs = [['email-hero','success-hero','fg-hero'],['email-final','success-final','fg-final']];
+      submit(...pairs[i]);
+    }
   });
 });
 </script>
