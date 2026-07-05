@@ -1,1006 +1,263 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AOK — Pourquoi ton corps stocke même quand tu fais tout bien</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bibliothèque — Alpha Omega Key</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --blue:#1B3565;--blue2:#2A4A82;
+      --gold:#C4A35A;--gold-p:#F5EED8;--gold-b:#E2C87A;
+      --ivory:#F2EDE6;--ivory2:#EAE3D9;--white:#FDFAF6;
+      --t1:#1A1818;--t3:#8A7E72;--t4:#B5ABA0;
+      --ch:#6B4E8F;--cf:#A07820;--cn:#2E7D6A;
+    }
+    body{background:var(--ivory);color:var(--t1);font-family:'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
 
-<style>
-/* ══════════════════════════════════════════
-   RESET & ROOT
-══════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* HEADER */
+    .hdr{background:var(--white);border-bottom:1px solid var(--ivory2);padding:0 48px;}
+    .hdr-in{max-width:1100px;margin:0 auto;padding:26px 0;display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-size:11px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:var(--blue);}
+    .ls{color:var(--gold);margin:0 7px;}
+    .hdr-sub{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);}
+    .hdr-pill{background:var(--gold-p);color:var(--blue);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
 
-:root {
-  --royal:      #112250;
-  --sapphire:   #3C507D;
-  --quicksand:  #E0C58F;
-  --qs-dark:    #C9A96E;
-  --swan:       #F5F0E9;
-  --shell:      #D9CBC2;
-  --shell-mid:  #c9b5aa;
-  --white:      #FFFFFF;
-  --text:       #112250;
-  --muted:      rgba(17,34,80,0.52);
-  --faint:      rgba(17,34,80,0.14);
-  --border:     rgba(17,34,80,0.1);
-}
+    /* HERO */
+    .hero{background:var(--white);padding:56px 48px 48px;border-bottom:1px solid var(--ivory2);}
+    .hero-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px;}
+    .hero h1{font-family:Georgia,serif;font-size:40px;font-weight:300;line-height:1.15;color:var(--blue);letter-spacing:-0.5px;margin-bottom:14px;}
+    .hero h1 em{font-style:italic;color:var(--gold);}
+    .hero p{font-size:14px;line-height:1.75;color:var(--t3);font-weight:300;max-width:480px;}
+    .hstat{text-align:right;}
+    .hs-n{font-family:Georgia,serif;font-size:52px;font-weight:300;color:var(--blue);line-height:1;}
+    .hs-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-top:4px;}
+    .hs-s{font-size:11px;color:var(--gold);margin-top:6px;font-weight:500;}
 
-html { scroll-behavior: smooth; }
+    /* TABS */
+    .tabs{background:var(--white);border-bottom:2px solid var(--ivory2);padding:0 48px;}
+    .tabs-in{max-width:1100px;margin:0 auto;display:flex;}
+    .tab{padding:20px 0;margin-right:40px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;color:var(--t4);transition:color .2s,border-color .2s;display:flex;align-items:center;gap:10px;}
+    .tab.on{color:var(--blue);border-bottom-color:var(--blue);}
+    .tbadge{background:var(--gold-p);color:var(--blue);font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:10px;}
+    .tbadge-g{background:var(--gold);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:10px;}
 
-body {
-  background: var(--swan);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  overflow-x: hidden;
-  cursor: none;
-}
+    /* GRID */
+    .gw{padding:36px 48px 72px;}
+    .gi{max-width:1100px;margin:0 auto;}
+    .gm{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+    .gc{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--t4);}
+    .gn{font-size:11px;color:var(--t4);}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
 
-/* ══════════════════════════════════════════
-   CUSTOM CURSOR
-══════════════════════════════════════════ */
-.cursor {
-  position: fixed;
-  width: 8px; height: 8px;
-  background: var(--royal);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-  mix-blend-mode: multiply;
-}
-.cursor-ring {
-  position: fixed;
-  width: 32px; height: 32px;
-  border: 1px solid rgba(17,34,80,0.3);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: transform 0.12s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
-}
-body:has(a:hover) .cursor,
-body:has(button:hover) .cursor { width: 16px; height: 16px; background: var(--qs-dark); }
-body:has(a:hover) .cursor-ring,
-body:has(button:hover) .cursor-ring { width: 48px; height: 48px; border-color: var(--qs-dark); }
+    /* CARD */
+    .card{background:var(--white);border:1px solid var(--ivory2);display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s;}
+    .card:not(.soon):not(.trailer):hover{box-shadow:0 10px 36px rgba(27,53,101,.09);transform:translateY(-3px);}
+    .soon{opacity:.55;}
+    .cst{height:3px;display:block;}
+    .cb{padding:22px 22px 16px;flex:1;}
+    .ct{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+    .cbg{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;padding:3px 10px;border-radius:12px;}
+    .cs{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+    .son{color:#3A7A54;}.soff{color:var(--t4);}.sgold{color:var(--gold);font-weight:700;}
+    .ctit{font-family:Georgia,serif;font-size:15.5px;font-weight:400;line-height:1.45;color:var(--t1);margin-bottom:10px;}
+    .cdesc{font-size:12.5px;line-height:1.70;color:var(--t3);font-weight:300;}
+    .cf{padding:0 22px 20px;margin-top:18px;}
+    .btn{display:block;width:100%;padding:12px;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .18s;}
+    .btn-on{background:var(--blue);color:#fff;}.btn-on:hover{background:var(--blue2);}
+    .btn-off{background:var(--ivory2);color:var(--t4);cursor:default;}
 
-/* ══════════════════════════════════════════
-   NOISE GRAIN OVERLAY
-══════════════════════════════════════════ */
-.grain {
-  position: fixed; inset: -200%;
-  width: 400%; height: 400%;
-  pointer-events: none; z-index: 900;
-  opacity: 0.028;
-  animation: grain-shift 0.8s steps(1) infinite;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-}
-@keyframes grain-shift {
-  0%  { transform: translate(0,0); }
-  10% { transform: translate(-5%,-10%); }
-  20% { transform: translate(-15%,5%); }
-  30% { transform: translate(7%,-25%); }
-  40% { transform: translate(-5%,25%); }
-  50% { transform: translate(-15%,10%); }
-  60% { transform: translate(15%); }
-  70% { transform: translate(0,15%); }
-  80% { transform: translate(3%,35%); }
-  90% { transform: translate(-10%,10%); }
-}
+    /* TRAILER */
+    .trailer{grid-column:1/-1;flex-direction:row;align-items:stretch;border:1.5px solid var(--gold-b);background:linear-gradient(135deg,#FFFCF0 0%,var(--white) 55%);}
+    .trailer:hover{box-shadow:0 14px 44px rgba(196,163,90,.20);transform:translateY(-3px);}
+    .trailer .cb{flex:1;}
+    .tr-right{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 44px;border-left:1px solid var(--gold-b);min-width:230px;background:rgba(245,238,216,.30);gap:14px;}
+    .tr-pill{background:var(--gold);color:#fff;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:20px;}
+    .tr-date{font-family:Georgia,serif;font-size:32px;font-weight:300;color:var(--blue);line-height:1;text-align:center;}
+    .tr-date-s{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);text-align:center;margin-top:4px;}
+    .btn-tr{background:var(--gold-p);color:#8A6820;border:1px solid var(--gold-b);cursor:default;font-size:10px;padding:11px 20px;width:auto;white-space:nowrap;letter-spacing:1.5px;}
+    .tr-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
 
-/* ══════════════════════════════════════════
-   TOPBAR
-══════════════════════════════════════════ */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 800;
-  padding: 1.25rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(245,240,233,0);
-  transition: background 0.5s, border-color 0.5s;
-  border-bottom: 1px solid transparent;
-}
-.topbar.scrolled {
-  background: rgba(245,240,233,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom-color: var(--border);
-}
-.logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px; font-weight: 400;
-  letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--royal); text-decoration: none;
-}
-.topbar-cta {
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--muted); background: none; border: none; cursor: none;
-  transition: color 0.2s;
-}
-.topbar-cta:hover { color: var(--royal); }
+    /* SECTIONS */
+    .aud{display:none;}.aud.on{display:block;}
 
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 7rem 1.5rem 3rem;
-  position: relative;
-  overflow: hidden;
-}
+    /* FOOTER */
+    .ftr{background:var(--blue);padding:44px 48px;text-align:center;}
+    .fl{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px;}
+    .fg{color:var(--gold);margin:0 7px;}
+    .ft{font-family:Georgia,serif;font-size:14px;font-style:italic;color:rgba(255,255,255,.22);margin-bottom:16px;}
+    .fd{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);}
 
-/* Abstract SVG background */
-.hero-bg {
-  position: absolute; inset: 0;
-  overflow: hidden; z-index: 0;
-}
-.hero-bg svg {
-  position: absolute;
-  width: 100%; height: 100%;
-}
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  animation: orb-float linear infinite;
-}
-.orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(60,80,125,0.12) 0%, transparent 70%);
-  top: -10%; left: -5%;
-  animation-duration: 20s;
-}
-.orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(224,197,143,0.15) 0%, transparent 70%);
-  bottom: 5%; right: 5%;
-  animation-duration: 15s; animation-direction: reverse;
-}
-.orb-3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(17,34,80,0.07) 0%, transparent 70%);
-  top: 40%; right: 20%;
-  animation-duration: 25s;
-}
-@keyframes orb-float {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33% { transform: translate(30px,-20px) scale(1.05); }
-  66% { transform: translate(-20px,30px) scale(0.95); }
-}
-
-/* Hero lines décoratives */
-.hero-line {
-  position: absolute;
-  background: var(--border);
-  pointer-events: none;
-}
-.hero-line-h {
-  left: 0; right: 0; height: 1px;
-  animation: line-fade-in 2s ease forwards;
-  opacity: 0;
-}
-.hero-line-1 { top: 35%; animation-delay: 0.8s; }
-.hero-line-2 { top: 72%; animation-delay: 1.2s; }
-.hero-line-v {
-  top: 0; bottom: 0; width: 1px;
-  animation: line-fade-in 2s ease forwards;
-  opacity: 0;
-}
-.hero-line-3 { left: 8%; animation-delay: 1s; }
-.hero-line-4 { right: 8%; animation-delay: 1.4s; }
-@keyframes line-fade-in { to { opacity: 1; } }
-
-/* Hero content */
-.hero-inner {
-  position: relative; z-index: 1;
-  text-align: center;
-  max-width: 800px;
-}
-
-.hero-tag {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--qs-dark);
-  display: flex; align-items: center; justify-content: center;
-  gap: 1rem; margin-bottom: 2.5rem;
-  opacity: 0; animation: fade-up 0.8s ease 0.3s forwards;
-}
-.hero-tag-line { width: 32px; height: 1px; background: var(--quicksand); }
-
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 300; line-height: 1.07;
-  letter-spacing: -0.02em;
-  color: var(--royal);
-  margin-bottom: 2rem;
-}
-/* Chaque word group animé */
-.word-line {
-  display: block; overflow: hidden;
-}
-.word-reveal {
-  display: inline-block;
-  opacity: 0; transform: translateY(40px);
-  animation: word-in 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
-}
-.word-reveal:nth-child(1) { animation-delay: 0.5s; }
-.word-reveal:nth-child(2) { animation-delay: 0.65s; }
-.word-reveal:nth-child(3) { animation-delay: 0.8s; }
-.word-reveal:nth-child(4) { animation-delay: 0.95s; }
-@keyframes word-in {
-  to { opacity: 1; transform: translateY(0); }
-}
-.title-em {
-  font-style: italic; color: var(--sapphire);
-}
-
-.hero-sub {
-  font-size: 15px; font-weight: 300;
-  color: var(--muted); line-height: 1.8;
-  max-width: 480px; margin: 0 auto 3rem;
-  opacity: 0; animation: fade-up 0.8s ease 1.2s forwards;
-}
-
-/* Form hero */
-.form-hero {
-  opacity: 0; animation: fade-up 0.8s ease 1.4s forwards;
-}
-.form-group {
-  display: flex;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(17,34,80,0.08), 0 1px 3px rgba(17,34,80,0.06);
-  transition: box-shadow 0.3s, border-color 0.3s;
-  max-width: 440px; margin: 0 auto;
-}
-.form-group:focus-within {
-  border-color: var(--sapphire);
-  box-shadow: 0 4px 24px rgba(17,34,80,0.14), 0 0 0 3px rgba(60,80,125,0.08);
-}
-.form-input {
-  flex: 1; min-width: 0;
-  padding: 1.1rem 1.25rem;
-  border: none; outline: none; background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 300;
-  color: var(--royal);
-}
-.form-input::placeholder { color: rgba(17,34,80,0.3); }
-.form-btn {
-  padding: 1.1rem 1.5rem;
-  background: var(--royal); border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--quicksand); cursor: none;
-  white-space: nowrap;
-  position: relative; overflow: hidden;
-  transition: background 0.3s;
-}
-.form-btn::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background 0.2s;
-}
-.form-btn:hover { background: var(--sapphire); }
-.form-btn:hover::after { background: rgba(255,255,255,0.04); }
-
-.form-privacy {
-  font-size: 11px; font-weight: 300;
-  color: rgba(17,34,80,0.3);
-  text-align: center; margin-top: 0.75rem;
-  letter-spacing: 0.02em;
-}
-.form-success {
-  display: none;
-  padding: 1rem 1.5rem;
-  background: rgba(60,80,125,0.06);
-  border: 1px solid rgba(60,80,125,0.2);
-  border-radius: 2px;
-  font-size: 14px; color: var(--sapphire);
-  text-align: center; line-height: 1.6;
-}
-
-/* Scroll indicator */
-.scroll-hint {
-  position: absolute; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column;
-  align-items: center; gap: 8px; z-index: 1;
-  opacity: 0; animation: fade-up 1s ease 2s forwards;
-}
-.scroll-line {
-  width: 1px; height: 48px;
-  background: linear-gradient(to bottom, var(--qs-dark), transparent);
-  animation: scroll-pulse 2s ease infinite;
-}
-@keyframes scroll-pulse {
-  0%,100% { opacity: 0.3; transform: scaleY(1); }
-  50% { opacity: 1; transform: scaleY(0.6); }
-}
-.scroll-text {
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(17,34,80,0.3);
-}
-
-/* ══════════════════════════════════════════
-   PROOF BAR
-══════════════════════════════════════════ */
-.proof-bar {
-  background: var(--royal);
-  padding: 2rem;
-  display: flex; justify-content: center; gap: 0;
-}
-.proof-item {
-  flex: 1; max-width: 180px;
-  text-align: center; padding: 0 1.5rem;
-  position: relative;
-}
-.proof-item + .proof-item::before {
-  content: ''; position: absolute; left: 0; top: 10%; bottom: 10%;
-  width: 1px; background: rgba(224,197,143,0.2);
-}
-.proof-num {
-  display: block;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem; font-weight: 300;
-  color: var(--quicksand); line-height: 1;
-  margin-bottom: 6px;
-}
-.proof-label {
-  display: block; font-size: 10px; font-weight: 400;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(224,197,143,0.45);
-}
-
-/* ══════════════════════════════════════════
-   REVEAL ANIMATION SYSTEM
-══════════════════════════════════════════ */
-.reveal {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
-              transform 0.9s cubic-bezier(0.16,1,0.3,1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left {
-  opacity: 0; transform: translateX(-28px);
-  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
-              transform 0.9s cubic-bezier(0.16,1,0.3,1);
-}
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
-
-/* stagger delays */
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-
-/* ══════════════════════════════════════════
-   SECTION SHARED
-══════════════════════════════════════════ */
-.section-label {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--qs-dark); margin-bottom: 2rem;
-  display: flex; align-items: center; gap: 1rem;
-}
-.section-label::after {
-  content: ''; display: block; flex: 1;
-  max-width: 48px; height: 1px;
-  background: var(--quicksand); opacity: 0.5;
-}
-
-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300; line-height: 1.2;
-  color: var(--royal);
-}
-
-/* ══════════════════════════════════════════
-   AU PROGRAMME
-══════════════════════════════════════════ */
-.chapters-section {
-  padding: 6rem 1.5rem;
-  max-width: 740px; margin: 0 auto;
-}
-.chapters-section h2 {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  margin-bottom: 1rem;
-}
-.chapters-sub {
-  font-size: 15px; font-weight: 300;
-  color: var(--muted); line-height: 1.75;
-  margin-bottom: 4rem; max-width: 520px;
-}
-
-.chapter {
-  display: grid; grid-template-columns: 52px 1fr;
-  gap: 1.5rem; align-items: start;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-.chapter:last-child { border-bottom: none; }
-
-/* Ligne animée au hover */
-.chapter::before {
-  content: ''; position: absolute;
-  left: 0; bottom: -1px; width: 0; height: 1px;
-  background: var(--quicksand);
-  transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.chapter:hover::before { width: 100%; }
-
-.chapter-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px; font-weight: 400;
-  color: var(--qs-dark); letter-spacing: 0.1em;
-  padding-top: 4px;
-}
-.chapter-body {}
-.chapter-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.25rem; font-style: italic; font-weight: 400;
-  color: var(--royal); margin-bottom: 0.6rem;
-  transition: color 0.2s;
-}
-.chapter:hover .chapter-title { color: var(--sapphire); }
-.chapter-desc {
-  font-size: 13px; font-weight: 300;
-  color: var(--muted); line-height: 1.7;
-}
-
-/* ══════════════════════════════════════════
-   POUR TOI SI — section en bandes
-══════════════════════════════════════════ */
-.for-you {
-  background: var(--shell);
-  overflow: hidden;
-  position: relative;
-}
-.for-you::before {
-  content: '';
-  position: absolute; top: -2px; left: 0; right: 0; height: 1px;
-  background: linear-gradient(to right, transparent, var(--shell-mid), transparent);
-}
-.for-you-inner {
-  max-width: 740px; margin: 0 auto;
-  padding: 6rem 1.5rem;
-}
-.for-you h2 {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  margin-bottom: 3.5rem;
-}
-
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1px;
-  background: var(--shell-mid);
-  border: 1px solid var(--shell-mid);
-}
-.card {
-  background: var(--shell);
-  padding: 2rem 1.75rem;
-  position: relative; overflow: hidden;
-  transition: background 0.4s;
-}
-.card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(17,34,80,0);
-  transition: background 0.4s;
-}
-.card:hover { background: #cfc0b5; }
-.card-dash {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem; color: var(--qs-dark);
-  margin-bottom: 0.75rem; display: block;
-}
-.card-text {
-  font-size: 14px; font-weight: 300;
-  color: rgba(17,34,80,0.75); line-height: 1.65;
-}
-.card-text strong { font-weight: 500; color: var(--royal); }
-
-/* ══════════════════════════════════════════
-   CITATION / MANIFESTE
-══════════════════════════════════════════ */
-.manifeste {
-  padding: 7rem 1.5rem;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.manifeste-bg-text {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(80px, 18vw, 180px);
-  font-weight: 300; color: rgba(17,34,80,0.04);
-  white-space: nowrap; pointer-events: none;
-  letter-spacing: -0.04em; z-index: 0;
-}
-.manifeste-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
-.quote-mark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 5rem; line-height: 0.5;
-  color: var(--quicksand); display: block;
-  margin-bottom: 1.5rem; opacity: 0.6;
-}
-.manifeste-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 300; font-style: italic;
-  color: var(--royal); line-height: 1.45;
-  margin-bottom: 1.5rem;
-}
-.manifeste-attr {
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--qs-dark);
-}
-
-/* ══════════════════════════════════════════
-   CTA FINAL
-══════════════════════════════════════════ */
-.final-cta {
-  background: var(--royal);
-  padding: 7rem 1.5rem;
-  text-align: center; position: relative;
-  overflow: hidden;
-}
-.final-cta-orb {
-  position: absolute;
-  border-radius: 50%; filter: blur(80px);
-  pointer-events: none;
-}
-.final-cta-orb-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(224,197,143,0.08) 0%, transparent 60%);
-  top: -100px; right: -100px;
-}
-.final-cta-orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(60,80,125,0.3) 0%, transparent 60%);
-  bottom: -80px; left: -80px;
-}
-.final-cta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
-.final-cta h2 {
-  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-  color: var(--swan); margin-bottom: 1rem;
-}
-.final-cta h2 em { font-style: italic; color: var(--quicksand); }
-.final-cta p {
-  font-size: 15px; font-weight: 300;
-  color: rgba(245,240,233,0.55); line-height: 1.7;
-  margin-bottom: 3rem;
-}
-
-/* Bouton final — effet magnétique */
-.btn-primary {
-  display: inline-block;
-  padding: 1.1rem 3rem;
-  background: var(--quicksand);
-  color: var(--royal);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  border: none; cursor: none;
-  border-radius: 1px; text-decoration: none;
-  position: relative; overflow: hidden;
-  transition: background 0.3s, transform 0.2s;
-}
-.btn-primary::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.5s;
-}
-.btn-primary:hover { background: var(--qs-dark); }
-.btn-primary:hover::before { left: 100%; }
-
-/* Form dans final CTA */
-.form-final {
-  max-width: 420px; margin: 2.5rem auto 0;
-}
-.form-group-dark {
-  display: flex;
-  background: rgba(245,240,233,0.06);
-  border: 1px solid rgba(224,197,143,0.25);
-  border-radius: 2px; overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.form-group-dark:focus-within {
-  border-color: rgba(224,197,143,0.6);
-  box-shadow: 0 0 0 3px rgba(224,197,143,0.08);
-}
-.form-input-dark {
-  flex: 1; min-width: 0; padding: 1.1rem 1.25rem;
-  border: none; outline: none;
-  background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 300;
-  color: var(--swan);
-}
-.form-input-dark::placeholder { color: rgba(245,240,233,0.3); }
-.form-btn-dark {
-  padding: 1.1rem 1.5rem;
-  background: var(--quicksand); border: none; cursor: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--royal); white-space: nowrap;
-  transition: background 0.2s;
-}
-.form-btn-dark:hover { background: var(--qs-dark); }
-.form-final-note {
-  font-size: 11px; font-weight: 300;
-  color: rgba(245,240,233,0.3);
-  margin-top: 0.75rem;
-}
-.form-success-dark {
-  display: none; padding: 1rem 1.5rem;
-  background: rgba(224,197,143,0.08);
-  border: 1px solid rgba(224,197,143,0.2);
-  border-radius: 2px;
-  font-size: 14px; color: var(--quicksand);
-  text-align: center; line-height: 1.6;
-}
-
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
-footer {
-  padding: 2.5rem 1.5rem;
-  background: #0b0f1c;
-  text-align: center;
-}
-footer p {
-  font-size: 11px; font-weight: 300;
-  color: rgba(245,240,233,0.2);
-  letter-spacing: 0.06em; line-height: 2;
-}
-footer a { color: rgba(224,197,143,0.5); text-decoration: none; transition: color 0.2s; }
-footer a:hover { color: var(--quicksand); }
-
-/* ══════════════════════════════════════════
-   KEYFRAMES UTILITAIRES
-══════════════════════════════════════════ */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════ */
-@media (max-width: 600px) {
-  .topbar { padding: 1rem 1.25rem; }
-  .hero-line-v { display: none; }
-  .form-group, .form-group-dark { flex-direction: column; }
-  .form-btn, .form-btn-dark { padding: 1rem; }
-  .proof-bar { gap: 0; }
-  .proof-item { padding: 0 0.75rem; }
-  .cards-grid { grid-template-columns: 1fr; }
-  body { cursor: auto; }
-  .cursor, .cursor-ring { display: none; }
-}
-</style>
+    @media(max-width:960px){
+      .cards{grid-template-columns:repeat(2,1fr);}
+      .trailer{flex-direction:column;}
+      .tr-right{border-left:none;border-top:1px solid var(--gold-b);flex-direction:row;min-width:auto;padding:24px;}
+      .hero-in{grid-template-columns:1fr;}.hstat{text-align:left;}
+    }
+    @media(max-width:600px){
+      .hdr,.hero,.tabs,.gw,.ftr{padding-left:20px;padding-right:20px;}
+      .cards{grid-template-columns:1fr;}
+      .hero h1{font-size:28px;}
+      .hdr-pill,.hdr-sub{display:none;}
+      .trailer{flex-direction:column;}
+      .tr-right{border-left:none;border-top:1px solid var(--gold-b);flex-direction:column;padding:24px;}
+    }
+  </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-
-<!-- GRAIN -->
-<div class="grain"></div>
-
-<!-- TOPBAR -->
-<header class="topbar" id="topbar">
-  <a class="logo" href="#">A O K</a>
-  <button class="topbar-cta" onclick="document.getElementById('form-hero').scrollIntoView({behavior:'smooth'})">
-    Recevoir le guide →
-  </button>
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">Alpha<span class="ls">·</span>Omega Key</div>
+    <div class="hdr-sub">Bibliothèque</div>
+    <div class="hdr-pill">Accès gratuit</div>
+  </div>
 </header>
 
-<!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-  <div class="hero-line hero-line-h hero-line-1"></div>
-  <div class="hero-line hero-line-h hero-line-2"></div>
-  <div class="hero-line hero-line-v hero-line-3"></div>
-  <div class="hero-line hero-line-v hero-line-4"></div>
-
-  <div class="hero-inner">
-    <div class="hero-tag">
-      <span class="hero-tag-line"></span>
-      Guide gratuit
-      <span class="hero-tag-line"></span>
+  <div class="hero-in">
+    <div>
+      <h1>Comprendre<br>pour <em>agir.</em></h1>
+      <p>Des ressources scientifiques gratuites pour les femmes qui veulent enfin lire leur biologie et pour les professionnelles qui les accompagnent au quotidien.</p>
     </div>
-
-    <h1 class="hero-title">
-      <span class="word-line">
-        <span class="word-reveal">Pourquoi&nbsp;ton&nbsp;corps&nbsp;stocke</span>
-      </span>
-      <span class="word-line">
-        <span class="word-reveal">même&nbsp;quand&nbsp;tu</span>
-      </span>
-      <span class="word-line">
-        <span class="word-reveal"><em class="title-em">fais&nbsp;tout&nbsp;bien</em></span>
-      </span>
-    </h1>
-
-    <p class="hero-sub">
-      Les 3 mécanismes biologiques que personne ne t'a expliqués —
-      et pourquoi ils sabotent tes efforts sans que tu le saches.
-    </p>
-
-    <div class="form-hero" id="form-hero">
-      <div class="form-group" id="fg-hero">
-        <input class="form-input" type="email" id="email-hero"
-          placeholder="ton@email.com" autocomplete="email" />
-        <button class="form-btn" onclick="submit('email-hero','success-hero','fg-hero')">
-          Recevoir
-        </button>
-      </div>
-      <div class="form-success" id="success-hero">
-        ✦ &nbsp;C'est envoyé — vérifie ta boîte dans 2 minutes.
-      </div>
-      <p class="form-privacy">Aucune publicité · Aucune revente · Désabonnement en 1 clic</p>
+    <div class="hstat">
+      <div class="hs-n">5</div>
+      <div class="hs-l">Ressources en bibliothèque</div>
+      <div class="hs-s">3 disponibles aujourd'hui</div>
     </div>
-  </div>
-
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span class="scroll-text">Lire</span>
   </div>
 </section>
 
-<!-- ── PROOF BAR ── -->
-<div class="proof-bar">
-  <div class="proof-item">
-    <span class="proof-num" data-count="3" data-suffix="">0</span>
-    <span class="proof-label">Mécanismes décryptés</span>
+<nav class="tabs">
+  <div class="tabs-in">
+    <button class="tab on" onclick="switchTab('btoc',this)">
+      Pour vous <span class="tbadge">3 guides</span>
+    </button>
+    <button class="tab" onclick="switchTab('btob',this)">
+      Pour les professionnelles <span class="tbadge-g">Dès le 1er août</span>
+    </button>
   </div>
-  <div class="proof-item">
-    <span class="proof-num" data-count="12" data-suffix="">0</span>
-    <span class="proof-label">Pages · Lecture rapide</span>
-  </div>
-  <div class="proof-item">
-    <span class="proof-num" data-count="0" data-suffix="€">0€</span>
-    <span class="proof-label">Gratuit, sans condition</span>
+</nav>
+
+
+<!-- B2C -->
+<div class="aud on" id="block-btoc">
+  <div class="gw">
+    <div class="gi">
+      <div class="gm">
+        <div class="gc">3 guides disponibles</div>
+        <div class="gn">Tous les téléchargements sont gratuits</div>
+      </div>
+      <div class="cards">
+
+        <div class="card">
+          <span class="cst" style="background:var(--ch)"></span>
+          <div class="cb">
+            <div class="ct">
+              <span class="cbg" style="background:#F3EEF8;color:var(--ch)">Hormones</span>
+              <span class="cs son">· Disponible</span>
+            </div>
+            <div class="ctit">L'Éveil de la Thyroïde</div>
+            <div class="cdesc">Taux optimaux réels, conversion T4→T3, liens microbiote-inflammation-hormones. Approches comparées : occidentale, fonctionnelle, ayurvédique, MTC. Protocole sélénium et routines physiologiques concrètes.</div>
+          </div>
+          <div class="cf"><a href="https://mcusercontent.com/9eb262f10e6d7edfc06b1be20/files/bc5423f8-3fde-86e1-c2d6-7b2022e0609f/AOK_Guide_Thyroide_30j_9_.pdf" class="btn btn-on">Télécharger le guide</a></div>
+        </div>
+
+        <div class="card">
+          <span class="cst" style="background:var(--cn)"></span>
+          <div class="cb">
+            <div class="ct">
+              <span class="cbg" style="background:#EBF5F2;color:var(--cn)">Nature &amp; Science</span>
+              <span class="cs son">· Disponible</span>
+            </div>
+            <div class="ctit">Les 30 Espèces Ancestrales</div>
+            <div class="cdesc">Les espèces les mieux documentées pour restaurer la conversion thyroïdienne, soutenir la barrière intestinale et réduire l'inflammation de bas grade. Plantes, racines, fermentations.</div>
+          </div>
+          <div class="cf"><a href="https://mcusercontent.com/9eb262f10e6d7edfc06b1be20/files/d92179d5-2df7-78d9-47b0-0695b2fc8b75/AOK_30_Especes_Microbiome_Thyroide.pdf_1_.pdf" class="btn btn-on">Télécharger le guide</a></div>
+        </div>
+
+        <div class="card">
+          <span class="cst" style="background:var(--gold)"></span>
+          <div class="cb">
+            <div class="ct">
+              <span class="cbg" style="background:#FAF5E8;color:var(--cf)">Fondations</span>
+              <span class="cs son">· Disponible</span>
+            </div>
+            <div class="ctit">Niveau 1 — Ce qu'on vous a mal enseigné</div>
+            <div class="cdesc">Levier protéique (Simpson &amp; Raubenheimer), charge glycémique réelle vs index, pause stratégique (Byrne 2018). Trois mécanismes biologiques sous-documentés qui changent tout.</div>
+          </div>
+          <div class="cf"><a href="https://mcusercontent.com/9eb262f10e6d7edfc06b1be20/files/759d953e-2f77-9c23-3ca0-1c4591e90273/AOK_Guide_Nutrition_Vol1_Ce_qu_on_vous_a_mal_enseigne.pdf" class="btn btn-on">Télécharger le guide</a></div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ── AU PROGRAMME ── -->
-<section class="chapters-section">
-  <div class="reveal">
-    <div class="section-label">Au programme</div>
-    <h2>Un guide sur les mécanismes réels,<br>pas les symptômes.</h2>
-  </div>
-  <p class="chapters-sub reveal delay-1">
-    Ce n'est pas un guide de régime. C'est une explication biologique de ce
-    qui se passe vraiment dans ton corps — et pourquoi les solutions classiques
-    ne peuvent structurellement pas fonctionner sur toi.
-  </p>
 
-  <div class="chapter reveal delay-1">
-    <span class="chapter-num">01 —</span>
-    <div class="chapter-body">
-      <div class="chapter-title">Le cortisol au réveil : pourquoi tu te lèves épuisée</div>
-      <div class="chapter-desc">
-        Ce signal hormonal devrait être à son pic à 8h. Chez 34% des femmes
-        en transition métabolique, il fait l'inverse. Ce que ça signifie
-        concrètement pour ton énergie, ton poids, ton humeur.
+<!-- B2B -->
+<div class="aud" id="block-btob">
+  <div class="gw">
+    <div class="gi">
+      <div class="gm">
+        <div class="gc">2 ressources professionnelles</div>
+        <div class="gn">Réservé aux professionnelles de terrain</div>
+      </div>
+      <div class="cards">
+
+        <div class="card trailer">
+          <span class="cst" style="background:var(--gold)"></span>
+          <div class="cb">
+            <div class="tr-eyebrow">Premier dossier pro</div>
+            <div class="ct">
+              <span class="cbg" style="background:#EBF4EF;color:#3A7A54">Bilans biologiques</span>
+              <span class="cs sgold">· 1er août 2026</span>
+            </div>
+            <div class="ctit">Lire ses marqueurs biologiques — Guide professionnel</div>
+            <div class="cdesc">Vitamine D, fer, TSH, insuline à jeun, cortisol — les seuils réels, pas seulement les normes de laboratoire. Comprendre ce que vos clientes voient dans leurs résultats pour les orienter avec précision, sans diagnostiquer.</div>
+          </div>
+          <div class="tr-right">
+            <div class="tr-pill">Premier dossier</div>
+            <div>
+              <div class="tr-date">1er août</div>
+              <div class="tr-date-s">2026</div>
+            </div>
+            <button class="btn btn-tr">Vous serez notifié(e)</button>
+          </div>
+        </div>
+
+        <div class="card soon">
+          <span class="cst" style="background:var(--ivory2)"></span>
+          <div class="cb">
+            <div class="ct">
+              <span class="cbg" style="background:#EEEAE4;color:var(--t4)">Outils terrain</span>
+              <span class="cs soff">· Août 2026</span>
+            </div>
+            <div class="ctit">Mécanismes à expliquer en cabinet</div>
+            <div class="cdesc">Langage accessible pour vos clientes. Comment traduire les mécanismes biologiques sans dépasser votre rôle professionnel.</div>
+          </div>
+          <div class="cf"><button class="btn btn-off">Bientôt disponible</button></div>
+        </div>
+
       </div>
     </div>
   </div>
+</div>
 
-  <div class="chapter reveal delay-2">
-    <span class="chapter-num">02 —</span>
-    <div class="chapter-body">
-      <div class="chapter-title">La sarcopénie silencieuse : le muscle que tu perds sans le voir</div>
-      <div class="chapter-desc">
-        La première cause de regain de poids n'est pas l'alimentation.
-        C'est la perte musculaire progressive — qui commence dès 30 ans
-        et s'accélère après chaque régime.
-      </div>
-    </div>
-  </div>
 
-  <div class="chapter reveal delay-3">
-    <span class="chapter-num">03 —</span>
-    <div class="chapter-body">
-      <div class="chapter-title">L'absorption réelle : pourquoi tes compléments ne font rien</div>
-      <div class="chapter-desc">
-        La dose sur l'étiquette n'est pas ce qui arrive dans tes cellules.
-        Microbiome, forme moléculaire, timing — les trois variables
-        que personne ne mentionne.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── MANIFESTE ── -->
-<section class="manifeste">
-  <div class="manifeste-bg-text">AOK</div>
-  <div class="manifeste-inner reveal">
-    <span class="quote-mark">"</span>
-    <p class="manifeste-text">
-      Ce n'est pas un problème de volonté.<br>
-      C'est un problème de signal biologique.<br>
-      Et les signaux, ça se corrige.
-    </p>
-    <span class="manifeste-attr">Alpha Omega Key · Science · Corps · Mental</span>
-  </div>
-</section>
-
-<!-- ── POUR TOI SI ── -->
-<section class="for-you">
-  <div class="for-you-inner">
-    <div class="reveal">
-      <div class="section-label">Ce guide est pour toi si…</div>
-      <h2>Tu te reconnais<br>dans au moins une de ces situations.</h2>
-    </div>
-
-    <div class="cards-grid" style="margin-top:3rem;">
-      <div class="card reveal delay-1">
-        <span class="card-dash">—</span>
-        <p class="card-text">Tu as <strong>suivi un programme bariatrique</strong> et tu sens que ton corps ne répond plus comme avant.</p>
-      </div>
-      <div class="card reveal delay-2">
-        <span class="card-dash">—</span>
-        <p class="card-text">Tu traverses <strong>une transition hormonale</strong> — préménopause, ménopause, post-partum — et tu ne te reconnais plus.</p>
-      </div>
-      <div class="card reveal delay-3">
-        <span class="card-dash">—</span>
-        <p class="card-text">Tu prends <strong>des compléments depuis des mois</strong> sans résultat visible et tu ne comprends pas pourquoi.</p>
-      </div>
-      <div class="card reveal delay-1">
-        <span class="card-dash">—</span>
-        <p class="card-text">Tu es sous <strong>traitement GLP-1</strong> et tu veux comprendre ce qui se passe biologiquement.</p>
-      </div>
-      <div class="card reveal delay-2">
-        <span class="card-dash">—</span>
-        <p class="card-text">Tu as l'impression de <strong>faire tout juste</strong> — manger correctement, bouger — et tu reprends quand même du poids.</p>
-      </div>
-      <div class="card reveal delay-3" style="background:var(--royal);display:flex;align-items:center;justify-content:center;">
-        <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(224,197,143,0.7);text-align:center;line-height:1.6;">
-          "On ne corrige pas.<br>On reprogramme."
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FINAL CTA ── -->
-<section class="final-cta">
-  <div class="final-cta-orb final-cta-orb-1"></div>
-  <div class="final-cta-orb final-cta-orb-2"></div>
-  <div class="final-cta-inner">
-    <div class="reveal">
-      <h2>Tu méritais cette explication<br><em>depuis longtemps.</em></h2>
-      <p>15 minutes de lecture. Des années de frustration clarifiées.<br>Pas de promesse magique — juste la mécanique réelle.</p>
-    </div>
-
-    <div class="form-final reveal delay-1">
-      <div class="form-group-dark" id="fg-final">
-        <input class="form-input-dark" type="email" id="email-final"
-          placeholder="ton@email.com" autocomplete="email" />
-        <button class="form-btn-dark" onclick="submit('email-final','success-final','fg-final')">
-          Recevoir
-        </button>
-      </div>
-      <div class="form-success-dark" id="success-final">
-        ✦ &nbsp;Vérifie ta boîte dans 2 minutes.
-      </div>
-      <p class="form-final-note">Aucune publicité · Aucune revente · Désabonnement en 1 clic</p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 Alpha Omega Key · Lyon, France · <a href="mailto:contact@alphaomegakey.com">contact@alphaomegakey.com</a></p>
-  <p><a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Politique de confidentialité</a></p>
+<footer class="ftr">
+  <div class="fl">Alpha<span class="fg">·</span>Omega Key</div>
+  <div class="ft">Tu fais attention, Mais ton corps a changé les règles</div>
+  <div class="fd">Lancement · Septembre 2026</div>
 </footer>
 
 <script>
-/* ── CURSOR ── */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let rx = 0, ry = 0, mx = 0, my = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
-function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
-animRing();
-
-/* ── TOPBAR SCROLL ── */
-const topbar = document.getElementById('topbar');
-window.addEventListener('scroll', () => {
-  topbar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
-
-/* ── SCROLL REVEAL ── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
-
-/* ── COUNTER ANIMATION ── */
-const countObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target;
-    const target = parseInt(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
-    if (target === 0) { el.textContent = '0' + suffix; countObserver.unobserve(el); return; }
-    let start = 0;
-    const duration = 1200;
-    const startTime = performance.now();
-    function update(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const val = Math.round(eased * target);
-      el.textContent = val + suffix;
-      if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = target + suffix;
-    }
-    requestAnimationFrame(update);
-    countObserver.unobserve(el);
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll('.proof-num[data-count]').forEach(el => countObserver.observe(el));
-
-/* ── FORM SUBMIT ── */
-const MAILCHIMP_URL = ''; // ← colle ton URL Mailchimp ici
-
-function submit(inputId, successId, groupId) {
-  const email = document.getElementById(inputId).value.trim();
-  if (!email || !email.includes('@')) { document.getElementById(inputId).style.borderBottom = '1px solid red'; return; }
-
-  if (MAILCHIMP_URL) {
-    const f = document.createElement('form');
-    f.method = 'POST'; f.action = MAILCHIMP_URL; f.target = '_blank';
-    const i = document.createElement('input');
-    i.type = 'hidden'; i.name = 'EMAIL'; i.value = email;
-    f.appendChild(i); document.body.appendChild(f); f.submit(); document.body.removeChild(f);
-  } else {
-    console.log('[AOK] Email capturé :', email);
+  function switchTab(a,btn){
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll('.aud').forEach(b=>b.classList.remove('on'));
+    document.getElementById('block-'+a).classList.add('on');
   }
-
-  document.getElementById(groupId).style.display = 'none';
-  document.getElementById(successId).style.display = 'block';
-}
-
-/* ── ENTER KEY ── */
-['email-hero','email-final'].forEach((id, i) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      const pairs = [['email-hero','success-hero','fg-hero'],['email-final','success-final','fg-final']];
-      submit(...pairs[i]);
-    }
-  });
-});
 </script>
 </body>
 </html>
